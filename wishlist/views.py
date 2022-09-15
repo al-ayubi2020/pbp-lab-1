@@ -25,5 +25,5 @@ data_barang_wishlist = BarangWishlist.objects.all()
 
 context = {
     'list_barang': data_barang_wishlist,
-    'nama': 'Tes'
+    'nama': 'Muhammad Hilman Al Ayubi'
 }
