@@ -1,0 +1,76 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %} 
+
+{% load static %}
+<!-- prettier-ignore -->
+{% block meta %}
+<title>Wishlist Ajax</title>
+<script>
+  let tab;
+  function show(data) {
+    tab = `<tr>
+            <th>Nama Barang</th>
+            <th>Harga Barang</th>
+            <th>Deskripsi</th>
+         </tr>`;
+
+    for (let r of data) {
+      tab += `<tr> 
+    <td>${r.fields.nama_barang} </td>
+    <td>${r.fields.harga_barang}</td>
+    <td>${r.fields.deskripsi}</td> 
+</tr>`;
+    }
+
+    document.getElementById("table").innerHTML = tab;
+  }
+
+  function loadData() {
+    $.get("{% url 'wishlist:show_json' %}", function (data) {
+      show(data);
+    });
+  }
+  $(document).ready(function () {
+    loadData();
+    $("#button").click(function () {
+      loadData();
+    });
+  });
+</script>
+{% endblock meta %}
+<!-- prettier-ignore -->
+{% block content %}
+
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">{{nama}}</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <button id="button" class="nav-link">Load Data</button>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'wishlist:logout' %}">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<table border="1" class="table table-bordered" id="table"></table>
+
+{% endblock content %}

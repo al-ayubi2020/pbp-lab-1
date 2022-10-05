@@ -1,58 +1,69 @@
+{% extends 'base.html' %}
 <!-- prettier-ignore -->
-{% extends 'base.html' %} 
-
 {% block meta %}
 <title>Login</title>
 {% endblock meta %}
-
 <!-- prettier-ignore -->
 {% block content %}
 
-<div class="login">
-  <h1>Login</h1>
-
-  <form method="POST" action="">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>Username:</td>
-        <td>
+<div class="w-full min-h-screen bg-[#BEBEBE] flex items-center justify-center">
+  <div class="w-[250px] h-[400px] sm:w-[400px] relative">
+    <div class="w-full h-full bg-white absolute top-0 z-10 rounded-lg">
+      <div
+        class="w-full h-full sm:px-16 px-5 flex flex-col items-center relative"
+      >
+        <form method="POST" action="" class="w-full flex flex-col items-center">
+          {% csrf_token %}
+          <p class="font-bold text-4xl text-[#FF7F00] mt-5">LOGIN</p>
+          <div class="space-y-5 w-full">
+            <div class="w-full">
+              <p class="text-sm">Username</p>
+              <input
+                type="text"
+                name="username"
+                class="form-control rounded-md border border-gray-400 w-full"
+                placeholder="Enter Your Username here"
+              />
+            </div>
+            <div>
+              <p class="text-sm">Password</p>
+              <input
+                type="password"
+                name="password"
+                class="form-control rounded-md border border-gray-400 w-full"
+                placeholder="Enter Your Password here"
+              />
+            </div>
+          </div>
           <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            class="form-control"
+            class="mt-10 py-1 px-8 rounded-lg cursor-pointer bg-[#FF9933] text-white"
+            type="submit"
+            value="Login"
           />
-        </td>
-      </tr>
-
-      <tr>
-        <td>Password:</td>
-        <td>
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            class="form-control"
-          />
-        </td>
-      </tr>
-
-      <tr>
-        <td></td>
-        <td><input class="btn login_btn" type="submit" value="Login" /></td>
-      </tr>
-    </table>
-  </form>
-
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %} Belum mempunyai akun?
-  <a href="{% url 'wishlist:register' %}">Buat Akun</a>
+        </form>
+        {% if messages %}
+        <div class="w-full flex flex-col items-center justify-center h-fit">
+          {% for message in messages %}
+          <p class="text-xs">{{ message }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="absolute right-0 bottom-0">
+          <p class="text-sm">
+            Belum punya akun?
+            <a
+              href="{% url 'wishlist:register' %}"
+              class="text-[#FF7F00] underline"
+              >Buat Akun</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-full h-full bg-[#D9D9D9] translate-x-3 translate-y-3 rounded-lg"
+    ></div>
+  </div>
 </div>
 
 {% endblock content %}

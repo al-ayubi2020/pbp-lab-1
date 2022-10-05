@@ -19,6 +19,14 @@ def show_wishlist(request):
     }
     return render(request, "wishlist.html", context)
 
+@login_required(login_url='/wishlist/login/')
+def show_wishlist_ajax(request):
+    context = {
+    'nama': 'Muhammad Hilman Al Ayubi',
+    'last_login': request.COOKIES['last_login'],
+    }
+    return render(request, "wishlist_ajax.html", context)
+
 def show_xml(request):
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
 
