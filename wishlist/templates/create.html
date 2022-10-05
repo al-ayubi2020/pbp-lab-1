@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+<!-- prettier-ignore -->
+{% block meta %}
+<title>Create To Do List</title>
+{% endblock meta %}
+<!-- prettier-ignore -->
+{% block content %}
+
+<div class="bg-[#BEBEBE] w-full min-h-screen px-10 py-10">
+  <form method="POST" action="" class="space-y-5">
+    {% csrf_token %}
+      <div class="w-full ">
+        <p class="">Nama</p>
+        <input
+          type="text"
+          name="nama_barang"
+          class="form-control rounded-md border border-gray-400 w-full"
+          placeholder="Nama"
+        />
+      </div>
+      <div class="w-full">
+        <p class="">Harga</p>
+        <input
+          type="text"
+          name="harga_barang"
+          class="form-control rounded-md border border-gray-400 w-full"
+          placeholder="Harga"
+        />
+      </div>
+      <div class="w-full">
+        <p class="">Deskripsi</p>
+        <input
+          type="text"
+          name="deskripsi"
+          class="form-control rounded-md border border-gray-400 w-full"
+          placeholder="Deskripsi"
+        />
+      </div>
+      <div class="w-full flex justify-end">
+        <input
+          class="py-1 md:px-8 px-2 rounded-lg cursor-pointer bg-[#FF9933] text-white"
+          type="submit"
+          value="submit"
+        />
+      </div>
+    </div>
+  </form>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+
+{% endblock content %}

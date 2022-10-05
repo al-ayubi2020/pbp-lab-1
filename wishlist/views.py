@@ -27,6 +27,19 @@ def show_wishlist_ajax(request):
     }
     return render(request, "wishlist_ajax.html", context)
 
+@login_required(login_url='/wishlist/login/')
+def create(request):
+    if request.method == 'POST':
+        nama_barang = request.POST.get('nama_barang')
+        harga_barang = request.POST.get('harga_barang')
+        deskripsi = request.POST.get('deskripsi')
+        item = BarangWishlist(nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
+        item.save()
+        return HttpResponseRedirect(reverse("wishlist:show_wishlist_ajax")) 
+    
+    context = {}
+    return render(request, "create.html", context)
+
 def show_xml(request):
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
 
