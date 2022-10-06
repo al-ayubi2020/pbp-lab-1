@@ -76,7 +76,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) 
-            response = HttpResponseRedirect(reverse("wishlist:show_wishlist")) 
+            response = HttpResponseRedirect(reverse("wishlist:show_wishlist_ajax")) 
             return response
         else:
             messages.info(request, 'Username atau Password salah!')
