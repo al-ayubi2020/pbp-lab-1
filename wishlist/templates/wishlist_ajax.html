@@ -57,6 +57,35 @@
       },
     });
   });
+
+  function clickCounter() {
+    if (typeof Storage !== "undefined") {
+      if (sessionStorage.clickcount) {
+        sessionStorage.clickcount = Number(sessionStorage.clickcount) + 1;
+      } else {
+        sessionStorage.clickcount = 1;
+      }
+      document.getElementById("result").innerHTML =
+        "Counter: " + sessionStorage.clickcount;
+    } else {
+      document.getElementById("result").innerHTML =
+        "Sorry, your browser does not support web storage...";
+    }
+  }
+  function clickCounter1() {
+    if (typeof Storage !== "undefined") {
+      if (localStorage.clickcount) {
+        localStorage.clickcount = Number(localStorage.clickcount) + 1;
+      } else {
+        localStorage.clickcount = 1;
+      }
+      document.getElementById("result1").innerHTML =
+        "Counter: " + localStorage.clickcount;
+    } else {
+      document.getElementById("result1").innerHTML =
+        "Sorry, your browser does not support web storage...";
+    }
+  }
 </script>
 {% endblock meta %}
 <!-- prettier-ignore -->
@@ -96,6 +125,18 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'wishlist:logout' %}">Logout</a>
+        </li>
+        <li class="nav-item flex items-center gap-2">
+          <button onclick="clickCounter()" type="button">
+            Click me! (sessionStorage)
+          </button>
+          <div id="result" class="mr-2"></div>
+        </li>
+        <li class="nav-item flex items-center gap-2">
+          <button onclick="clickCounter1()" type="button">
+            Click me! (localStorage)
+          </button>
+          <div id="result1"></div>
         </li>
       </ul>
     </div>
