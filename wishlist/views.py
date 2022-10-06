@@ -13,6 +13,7 @@ import datetime
 # Create your views here.
 @login_required(login_url='/wishlist/login/')
 def show_wishlist(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
     context = {
     'list_barang': data_barang_wishlist,
     'nama': 'Muhammad Hilman Al Ayubi',
@@ -21,6 +22,7 @@ def show_wishlist(request):
 
 @login_required(login_url='/wishlist/login/')
 def show_wishlist_ajax(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
     context = {
     'nama': 'Muhammad Hilman Al Ayubi',
     }
@@ -39,9 +41,11 @@ def create(request):
     return render(request, "create.html")
 
 def show_xml(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
 
 def show_json(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
     return HttpResponse(serializers.serialize("json", data_barang_wishlist), content_type="application/json")
 
 def show_xml_by_id(request, id):
@@ -84,11 +88,3 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('wishlist:login'))
     response.delete_cookie('last_login')
     return response
-
-
-data_barang_wishlist = BarangWishlist.objects.all()
-
-context = {
-    'list_barang': data_barang_wishlist,
-    'nama': 'Muhammad Hilman Al Ayubi',
-}
