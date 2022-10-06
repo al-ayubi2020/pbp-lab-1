@@ -27,13 +27,33 @@
   function loadData() {
     $.get("{% url 'wishlist:show_json' %}", function (data) {
       show(data);
+      console.log(data);
     });
   }
 
   $(document).ready(function () {
     loadData();
     $("#button").click(function () {
+      console.log("clicked");
       loadData();
+    });
+  });
+
+  $(document).on("submit", "#buatproject", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'wishlist:create' %}",
+      data: {
+        nama_barang: $("#nama_barang").val(),
+        harga_barang: $("#harga_barang").val(),
+        deskripsi: $("#deskripsi").val(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+      dataType: "json",
+      success: function () {
+        alert("Proyek Berhasil Ditambahkan!");
+      },
     });
   });
 </script>
@@ -64,7 +84,14 @@
           <button id="button" class="nav-link">Load Data</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'wishlist:create' %}">Tambah</a>
+          <button
+            type="button"
+            class="nav-link"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Tambah Data
+          </button>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'wishlist:logout' %}">Logout</a>
@@ -73,6 +100,81 @@
     </div>
   </div>
 </nav>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Wishlist</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form action="" id="buatproject">
+        {% csrf_token %}
+        <div class="modal-body space-y-5">
+          <div class="w-full">
+            <p class="">Nama</p>
+            <input
+              type="text"
+              name="nama_barang"
+              id="nama_barang"
+              class="form-control rounded-md border border-gray-400 w-full"
+              placeholder="Nama"
+            />
+          </div>
+          <div class="w-full">
+            <p class="">Harga</p>
+            <input
+              type="number"
+              name="harga_barang"
+              id="harga_barang"
+              class="form-control rounded-md border border-gray-400 w-full"
+              placeholder="Harga"
+            />
+          </div>
+          <div class="w-full">
+            <p class="">Deskripsi</p>
+            <input
+              type="text"
+              name="deskripsi"
+              id="deskripsi"
+              class="form-control rounded-md border border-gray-400 w-full"
+              placeholder="Deskripsi"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            id="button"
+            data-bs-dismiss="modal"
+          >
+            Save changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <table border="1" class="table table-bordered" id="table"></table>
 

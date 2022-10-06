@@ -1,58 +1,99 @@
 {% extends 'base.html' %}
 <!-- prettier-ignore -->
 {% block meta %}
-<title>Create To Do List</title>
+<title>Create Wishlist</title>
+<script>
+  // function loadData() {
+  //   $.get("{% url 'wishlist:show_json' %}", function (data) {
+  //     show(data);
+  //   });
+  // }
+
+  $(document).on("submit", "#buatproject", function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: "{% url 'wishlist:create' %}",
+      data: {
+        nama_barang: $("#nama_barang").val(),
+        harga_barang: $("#harga_barang").val(),
+        deskripsi: $("#deskripsi").val(),
+        csrfmiddlewaretoken: "{{ csrf_token }}",
+      },
+      dataType: "json",
+      success: function () {
+        alert("Proyek Berhasil Ditambahkan!");
+      },
+    });
+  });
+
+  // $(document).ready(function () {
+  //   $("#button").click(function (e) {
+  //     console.log("click");
+  //     e.preventDefault();
+  //     console.log(document.querySelector("#nama_barang").value);
+  //     console.log(document.querySelector("#harga_barang").value);
+  //     console.log(document.querySelector("#deskripsi").value);
+  //     $.post("{% url 'wishlist:create' %}", {
+  //       nama_barang: document.querySelector("#nama_barang").value,
+  //       harga_barang: document.querySelector("#harga_barang").value,
+  //       deskripsi: document.querySelector("#deskripsi").value,
+  //       csrfmiddlewaretoken: "{{ csrf_token }}",
+  //       function(data) {
+  //         alert("Proyek Berhasil Ditambahkan!");
+  //       },
+  //       json,
+  //     });
+  //   });
+  // });
+</script>
 {% endblock meta %}
 <!-- prettier-ignore -->
 {% block content %}
 
-<div class="bg-[#BEBEBE] w-full min-h-screen px-10 py-10">
-  <form method="POST" action="" class="space-y-5">
+<div class="bg-[#BEBEBE] w-full min-h-screen px-10 py-10 space-y-5">
+  <form action="" id="buatproject">
     {% csrf_token %}
-      <div class="w-full ">
-        <p class="">Nama</p>
-        <input
-          type="text"
-          name="nama_barang"
-          class="form-control rounded-md border border-gray-400 w-full"
-          placeholder="Nama"
-        />
-      </div>
-      <div class="w-full">
-        <p class="">Harga</p>
-        <input
-          type="text"
-          name="harga_barang"
-          class="form-control rounded-md border border-gray-400 w-full"
-          placeholder="Harga"
-        />
-      </div>
-      <div class="w-full">
-        <p class="">Deskripsi</p>
-        <input
-          type="text"
-          name="deskripsi"
-          class="form-control rounded-md border border-gray-400 w-full"
-          placeholder="Deskripsi"
-        />
-      </div>
-      <div class="w-full flex justify-end">
-        <input
-          class="py-1 md:px-8 px-2 rounded-lg cursor-pointer bg-[#FF9933] text-white"
-          type="submit"
-          value="submit"
-        />
-      </div>
+    <div class="w-full">
+      <p class="">Nama</p>
+      <input
+        type="text"
+        name="nama_barang"
+        id="nama_barang"
+        class="form-control rounded-md border border-gray-400 w-full"
+        placeholder="Nama"
+      />
+    </div>
+    <div class="w-full">
+      <p class="">Harga</p>
+      <input
+        type="number"
+        name="harga_barang"
+        id="harga_barang"
+        class="form-control rounded-md border border-gray-400 w-full"
+        placeholder="Harga"
+      />
+    </div>
+    <div class="w-full">
+      <p class="">Deskripsi</p>
+      <input
+        type="text"
+        name="deskripsi"
+        id="deskripsi"
+        class="form-control rounded-md border border-gray-400 w-full"
+        placeholder="Deskripsi"
+      />
+    </div>
+    <div class="w-full flex justify-end">
+      <button
+        class="py-1 md:px-8 px-2 rounded-lg cursor-pointer bg-[#FF9933] text-white"
+        id="button"
+        type="submit"
+      >
+        Tambah
+      </button>
     </div>
   </form>
-
-  {% if messages %}
-  <ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 </div>
 
 {% endblock content %}

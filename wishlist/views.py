@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
 import datetime
 
 # Create your views here.
@@ -33,10 +34,9 @@ def create(request):
         deskripsi = request.POST.get('deskripsi')
         item = BarangWishlist(nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
         item.save()
-        return HttpResponseRedirect(reverse("wishlist:show_wishlist_ajax")) 
+        return JsonResponse({"instance": "Proyek Dibuat"}, status=200)
     
-    context = {}
-    return render(request, "create.html", context)
+    return render(request, "create.html")
 
 def show_xml(request):
     return HttpResponse(serializers.serialize("xml", data_barang_wishlist), content_type="application/xml")
