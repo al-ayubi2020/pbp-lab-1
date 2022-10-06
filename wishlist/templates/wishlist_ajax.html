@@ -1,7 +1,6 @@
 <!-- prettier-ignore -->
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
-{% load static %}
 <!-- prettier-ignore -->
 {% block meta %}
 <title>Wishlist Ajax</title>
@@ -30,6 +29,7 @@
       show(data);
     });
   }
+
   $(document).ready(function () {
     loadData();
     $("#button").click(function () {
