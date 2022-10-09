@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
+from django.contrib.auth.models import User
 import datetime
 
 # Create your views here.
@@ -57,16 +58,27 @@ def show_json_by_id(request, id):
     return HttpResponse(serializers.serialize("json", data_barang_wishlist_by_id), content_type="application/json")
 
 def register(request):
-    form = UserCreationForm()
-
     if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Akun telah berhasil dibuat!')
-            return redirect('wishlist:login')
+        if username and password:
+            try:
+                acc = User.objects.create(username=username)
+                if acc:
+                    acc.set_password(password)
+                    acc.save()
+                    messages.success(request, 'Akun telah berhasil dibuat!')
+                    return redirect('wishlist:login')
+                else:
+                    messages.success(request, 'Terjadi masalah!')
+            except:
+                messages.success(request, 'Username sudah pernah digunakan!')
+        else:
+            messages.success(request, 'Tidak boleh kosong!')
+
     
-    context = {'form':form}
+    context = {}
     return render(request, 'register.html', context)
 
 def login_user(request):
@@ -83,8 +95,8 @@ def login_user(request):
     context = {}
     return render(request, 'login.html', context)
 
+@login_required(login_url='/wishlist/login/')
 def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('wishlist:login'))
-    response.delete_cookie('last_login')
     return response
